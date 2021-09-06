@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import { Board, BoardStatus } from './entities/board.entity';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class BoardService {
-  create(createBoardDto: CreateBoardDto) {
-    return 'This action adds a new board';
+  private boards = [];
+
+  getAllBoard(): Board[] {
+    return this.boards;
   }
 
-  findAll() {
-    return `This action returns all board`;
+  getBoard(id: string) {
+    const board: Board = this.boards.find((board) => board.id === id);
+
+    return board;
+  }
+  create({ title, description }: CreateBoardDto) {
+    const board: Board = {
+      id: uuid(),
+      title,
+      description,
+      status: BoardStatus.PUBLIC,
+    };
+    this.boards.push(board);
+
+    return board;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  update(id: string, { title, description }: UpdateBoardDto) {
+    const board: Board = this.getBoard(id);
+    if (title) {
+      board.title = title;
+    } else if (description) {
+      board.description = description;
+    }
+
+    return board;
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} board`;
+  delete(id: string): any {
+    return this.boards.filter((board) => board.id !== id);
   }
 }
