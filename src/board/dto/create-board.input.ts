@@ -1,9 +1,10 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateBoardGraphqlInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
+export class CreateBoardInput {
+  @Field(() => String)
   title: string;
 
+  @Field(() => String)
   description: string;
 }

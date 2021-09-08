@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { Board, BoardStatus } from 'src/board-rest/entities/board.entity';
-import { CreateBoardGraphqlInput } from './dto/create-board-graphql.input';
-import { UpdateBoardGraphqlInput } from './dto/update-board-graphql.input';
+import { Board } from 'src/board/entities/board.entity';
+import { CreateBoardInput } from './dto/create-board.input';
+import { UpdateBoardInput } from './dto/update-board.input';
+import { BoardStatus } from './dto/boradStatus.enum';
 
 @Injectable()
-export class BoardGraphqlService {
+export class BoardService {
   private board = [];
 
-  create({ title, description }: CreateBoardGraphqlInput) {
+  create({ title, description }: CreateBoardInput) {
     const board: Board = {
       id: uuid(),
       title,
@@ -29,7 +30,7 @@ export class BoardGraphqlService {
     return `This action returns a #${id} boardGraphql`;
   }
 
-  update(id: number, updateBoardGraphqlInput: UpdateBoardGraphqlInput) {
+  update(id: number, updateBoardGraphqlInput: UpdateBoardInput) {
     return `This action updates a #${id} boardGraphql`;
   }
 
